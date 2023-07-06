@@ -5,6 +5,7 @@
 - [x] login admin / kasir
 - [x] hak akses admin / kasir
 - [x] crud user by admin
+- [ ] upload output screenshot on github
 - [ ] crud barang by admin
 - [ ] history / logs
 
