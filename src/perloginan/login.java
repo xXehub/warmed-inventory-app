@@ -10,11 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 /**
-  _____             _ _        _    
- |_   _| _      __(_) |_ _  _| |__ 
-   | || ' \ _  (_-< | ' \ || | '_ \
-   |_||_||_(_) /__/_|_||_\_,_|_.__/  
-   * sihub | 03 - 27 - 2023
+ * _____ _ _ _ |_ _| _ __(_) |_ _ _| |__ | || ' \ _ (_-< | ' \ || | '_ \
+ * |_||_||_(_) /__/_|_||_\_,_|_.__/ sihub | 03 - 27 - 2023
  */
 public class login extends javax.swing.JFrame {
 
@@ -22,9 +19,11 @@ public class login extends javax.swing.JFrame {
     Connection con;
     PreparedStatement pst;
     ResultSet rs;
+
     public login() {
         initComponents();
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -64,6 +63,11 @@ public class login extends javax.swing.JFrame {
 
         password.setBackground(new java.awt.Color(255, 255, 255));
         password.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        password.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordActionPerformed(evt);
+            }
+        });
 
         jComboBox1.setBackground(new java.awt.Color(255, 255, 255));
         jComboBox1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -176,67 +180,121 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
- // codingan login
-    String uname = username.getText();
-    String pword = password.getText();
-    String option = jComboBox1.getSelectedItem().toString();
-    
-    if (uname.equals("")||pword.equals("")){
-        JOptionPane.showMessageDialog(rootPane, "Kolom tidak boleh kosong !", "Error", 1);
-        
-    }else if (option.equals("Pilih Role")){ 
-        JOptionPane.showMessageDialog(rootPane, "pilih role anda !", "Error", 1);
-    } else {
-        /* mengambil username dan password yang ada di dalam db */
-        try {
-            con = perpluginan.koneksi.getConnection();
-            pst = con.prepareStatement("select * from perloginan where username=? and password=?"); // disini pengambilan atau commands db nya lur
-            pst.setString(1, uname);
-            pst.setString(2, pword);
-            rs = pst.executeQuery(); // eksekusi query cuaks
-            
-            if (rs.next()){ 
-                String pilihan1 = rs.getString("role"); // membaca pilihan select menu yang ada di dalam row db " role " 
-                String un = rs.getString("username"); // menyimpan isi variable username kedalam variable un
-                if (option.equalsIgnoreCase("Admin")&& pilihan1.equalsIgnoreCase("admin")){
-                    // peradminan.HalamanAdmin admin_sakkarepmu = new peradminan.HalamanAdmin(un);
-                    /* -- pemberian hak akses -- */
-                    perpluginan.akses.setFirstname(rs.getString("firstname"));
-                    perpluginan.akses.setLastname(rs.getString("lastname"));
-                    perpluginan.akses.setUsername(rs.getString("username"));
-                    perpluginan.akses.setPassword(rs.getString("password"));
-                    perpluginan.akses.setRole(rs.getString("role"));
-                    /* -- sampe kene -- */
-                    permenunan.menu_utama admin_sakkarepmu = new permenunan.menu_utama(un);
-                    admin_sakkarepmu.setVisible(true); 
-                    setVisible(false);
+        // codingan login
+        String uname = username.getText();
+        String pword = password.getText();
+        String option = jComboBox1.getSelectedItem().toString();
+
+        if (uname.equals("") || pword.equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Kolom tidak boleh kosong !", "Error", 1);
+
+        } else if (option.equals("Pilih Role")) {
+            JOptionPane.showMessageDialog(rootPane, "pilih role anda !", "Error", 1);
+        } else {
+            /* mengambil username dan password yang ada di dalam db */
+            try {
+                con = perpluginan.koneksi.getConnection();
+                pst = con.prepareStatement("select * from perloginan where username=? and password=?"); // disini pengambilan atau commands db nya lur
+                pst.setString(1, uname);
+                pst.setString(2, pword);
+                rs = pst.executeQuery(); // eksekusi query cuaks
+
+                if (rs.next()) {
+                    String pilihan1 = rs.getString("role"); // membaca pilihan select menu yang ada di dalam row db " role " 
+                    String un = rs.getString("username"); // menyimpan isi variable username kedalam variable un
+                    if (option.equalsIgnoreCase("Admin") && pilihan1.equalsIgnoreCase("admin")) {
+                        // peradminan.HalamanAdmin admin_sakkarepmu = new peradminan.HalamanAdmin(un);
+                        /* -- pemberian hak akses -- */
+                        perpluginan.akses.setFirstname(rs.getString("firstname"));
+                        perpluginan.akses.setLastname(rs.getString("lastname"));
+                        perpluginan.akses.setUsername(rs.getString("username"));
+                        perpluginan.akses.setPassword(rs.getString("password"));
+                        perpluginan.akses.setRole(rs.getString("role"));
+                        /* -- sampe kene -- */
+                        permenunan.menu_utama admin_sakkarepmu = new permenunan.menu_utama(un);
+                        admin_sakkarepmu.setVisible(true);
+                        setVisible(false);
+                    } else if (option.equalsIgnoreCase("kasir") && pilihan1.equalsIgnoreCase("kasir")) {
+                        /* -- pemberian hak akses kasir -- */
+                        perpluginan.akses.setFirstname(rs.getString("firstname"));
+                        perpluginan.akses.setLastname(rs.getString("lastname"));
+                        perpluginan.akses.setUsername(rs.getString("username"));
+                        perpluginan.akses.setPassword(rs.getString("password"));
+                        perpluginan.akses.setRole(rs.getString("role"));
+                        /* -- sampe kene -- */
+                        permenunan.menu_utama kasir_sakkarepmu = new permenunan.menu_utama(un);
+                        kasir_sakkarepmu.setVisible(true);
+                        setVisible(false);
+                    } else {
+                        JOptionPane.showMessageDialog(rootPane, "username atau password salah !", "Login Error", 1);
+                    }
                 }
-                if (option.equalsIgnoreCase("kasir")&& pilihan1.equalsIgnoreCase("kasir")){
-                    /* -- pemberian hak akses kasir -- */
-                    perpluginan.akses.setFirstname(rs.getString("firstname"));
-                    perpluginan.akses.setLastname(rs.getString("lastname"));
-                    perpluginan.akses.setUsername(rs.getString("username"));
-                    perpluginan.akses.setPassword(rs.getString("password"));
-                    perpluginan.akses.setRole(rs.getString("role"));
-                    /* -- sampe kene -- */
-                    permenunan.menu_utama kasir_sakkarepmu = new permenunan.menu_utama(un);
-                    kasir_sakkarepmu.setVisible(true); 
-                    setVisible(false);
-                }
-                else { 
-                JOptionPane.showMessageDialog(rootPane, "username atau password salah !" , "Login Error", 1);   
+            } catch (Exception ex) {
+                System.out.println("[ERROR] " + ex);
             }
-            }      
-        }catch(Exception ex) {
-            System.out.println(""+ex);
         }
-        
-    }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_usernameActionPerformed
+
+    private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
+        // TODO add your handling code here:
+        // codingan login
+        String uname = username.getText();
+        String pword = password.getText();
+        String option = jComboBox1.getSelectedItem().toString();
+
+        if (uname.equals("") || pword.equals("")) {
+            JOptionPane.showMessageDialog(rootPane, "Kolom tidak boleh kosong !", "Error", 1);
+
+        } else if (option.equals("Pilih Role")) {
+            JOptionPane.showMessageDialog(rootPane, "pilih role anda !", "Error", 1);
+        } else {
+            /* mengambil username dan password yang ada di dalam db */
+            try {
+                con = perpluginan.koneksi.getConnection();
+                pst = con.prepareStatement("select * from perloginan where username=? and password=?"); // disini pengambilan atau commands db nya lur
+                pst.setString(1, uname);
+                pst.setString(2, pword);
+                rs = pst.executeQuery(); // eksekusi query cuaks
+
+                if (rs.next()) {
+                    String pilihan1 = rs.getString("role"); // membaca pilihan select menu yang ada di dalam row db " role " 
+                    String un = rs.getString("username"); // menyimpan isi variable username kedalam variable un
+                    if (option.equalsIgnoreCase("Admin") && pilihan1.equalsIgnoreCase("admin")) {
+                        // peradminan.HalamanAdmin admin_sakkarepmu = new peradminan.HalamanAdmin(un);
+                        /* -- pemberian hak akses -- */
+                        perpluginan.akses.setFirstname(rs.getString("firstname"));
+                        perpluginan.akses.setLastname(rs.getString("lastname"));
+                        perpluginan.akses.setUsername(rs.getString("username"));
+                        perpluginan.akses.setPassword(rs.getString("password"));
+                        perpluginan.akses.setRole(rs.getString("role"));
+                        /* -- sampe kene -- */
+                        permenunan.menu_utama admin_sakkarepmu = new permenunan.menu_utama(un);
+                        admin_sakkarepmu.setVisible(true);
+                        setVisible(false);
+                    } else if (option.equalsIgnoreCase("kasir") && pilihan1.equalsIgnoreCase("kasir")) {
+                        /* -- pemberian hak akses kasir -- */
+                        perpluginan.akses.setFirstname(rs.getString("firstname"));
+                        perpluginan.akses.setLastname(rs.getString("lastname"));
+                        perpluginan.akses.setUsername(rs.getString("username"));
+                        perpluginan.akses.setPassword(rs.getString("password"));
+                        perpluginan.akses.setRole(rs.getString("role"));
+                        /* -- sampe kene -- */
+                        permenunan.menu_utama kasir_sakkarepmu = new permenunan.menu_utama(un);
+                        kasir_sakkarepmu.setVisible(true);
+                        setVisible(false);
+                    } else {
+                        JOptionPane.showMessageDialog(rootPane, "username atau password salah !", "Login Error", 1);
+                    }
+                }
+            } catch (Exception ex) {
+                System.out.println("[ERROR] " + ex);
+            }
+        }
+    }//GEN-LAST:event_passwordActionPerformed
 
     /**
      * @param args the command line arguments
