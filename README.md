@@ -32,31 +32,15 @@ Library that used on this program
 - Install mysql.jdbc.driver library [download here](https://www.cdata.com/kb/tech/mysql-jdbc-netbeans.rst)
 - Run 
 
+
 ## Default Login
 
-#### Admin
-
-```http
-  if (option.equalsIgnoreCase("Admin") && pilihan1.equalsIgnoreCase("admin")) 
-```
+####
 
 | Usernane | Password     | Acces                |
 | :-------- | :------- | :------------------------- |
 | `admin` | `admin` | **Unlock**. All menu acces  |
-
-#### Kasir 
-
-```http
-  else if (option.equalsIgnoreCase("kasir") && pilihan1.equalsIgnoreCase("kasir"))
-```
-
-| Username | Password     | Description                       |
-| :-------- | :------- | :-------------------------------- |
 | `kasir`      | `kasir` | **The admin menu is locked**. only the menu for the cashier can be opened|
-
-
-
-
 
 ## Authors
 
